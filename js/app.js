@@ -1,52 +1,35 @@
-// alert('you are in');
+
 const mainPhone = document.getElementById('main');
 const loadPhone = () => {
-    // console.log("btn click");
 
     const searchInput = document.getElementById('search-input');
-    // console.log("input click");
-    const error = document.getElementById('error-message');
-    // console.log("error click");
+    const errorMsg1 = document.getElementById('error-message');
     const inputValue = searchInput.value;
-    // console.log(inputValue);isNaN(inputValue) ||
 
     if (inputValue == "") {
-        // alert("please enter a number");
-        error.innerText = "please give a phone name";
+        errorMsg1.innerText = "please give a phone name";
         searchInput.value = '';
         main.innerHTML = '';
     }
-    // else if (inputValue > 20) {
-    //     error.innerText = 'Not enough phone remaining to serach ';
-    //     searchInput.value = '';
-    //     // main.innerHTML = '';
-    // }
-    // else if (inputValue.length == 0) {
-    //     error.innerText = 'phone not found ';
-    //     searchInput.value = '';
-    //     main.innerHTML = '';
-    // }
     else {
         mainPhone.innerHTML = '';
-
         fetch(`https://openapi.programming-hero.com/api/phones?search=${inputValue}`)
             .then(res => res.json())
             .then(data => displayPhones(data.data));
-
         searchInput.value = '';
-        error.innerHTML = '';
+        errorMsg1.innerHTML = '';
     }
 }
 
+
 const displayPhones = phones => {
-    // console.log(phones);
+    const errorMsg2 = document.getElementById('error-message');
     if (phones.length === 0) {
-        alert('phone not found')
+        // alert('phone not found')
+        errorMsg2.innerText = "phone not found";
     }
 
     const showPhoneList = phones.slice(0, 20)
-    // phones.forEach(phone => {
-    // });
     for (const phone of showPhoneList) {
         const mainPhone = document.getElementById('main');
         const newDiv = document.createElement('div');
@@ -66,26 +49,40 @@ const displayPhones = phones => {
     }
 }
 
+
 const phoneDetails = (phone) => {
     fetch(`https://openapi.programming-hero.com/api/phone/${phone}`)
         .then(res => res.json())
         .then(data => {
-            const allphones = data.data;
-            const singlePhone = allphones.find(phone => phone.slug === code)
-
+            const phoneFeature = data.data;
+            const morePhoneDetails = document.getElementById('phone-details');
+            morePhoneDetails.textContent = '';
             const div = document.createElement('div');
-            main.innerHTML = '';
             div.innerHTML = `
-            <div class="card" style="width: 18rem;">
-              <img src="${singlePhone.image}" class="card-img-top" alt="...">
+            <div class="card" style="width: 300px;">
+              <img src="${phoneFeature.image}" class="card-img-top" alt="...">
               <div class="card-body">
-                 <h5 class="card-title">${singlePhone.suit}</h5>
-                 <p class="card-text">${singlePhone.code}</p>
-                 <p class="card-text">${singlePhone.value}</p>
+                <h5 class="card-title">${phoneFeature.name}</h5>
+                <p class="card-text">${phoneFeature.releaseDate}</p>
+                <h5 class="card-title"> Performance &  Storage :</h5>
+                <p class="card-text">${phoneFeature.mainFeatures.storage}</p>
+                <p class="card-text">${phoneFeature.mainFeatures.memory}</p>
+                <p class="card-text">${phoneFeature.mainFeatures.chipSet}</p>
+                <h5 class="card-title">Display :</h5>
+                <p class="card-text">${phoneFeature.mainFeatures.displaySize}</p>
+                <h5 class="card-title">Sensors :</h5>
+                <p class="card-text text-wrap">${phoneFeature.mainFeatures.sensors}</p>
+                <h5 class="card-title">Others :</h5>
+                <p class="card-text">WLAN:${phoneFeature.others.WLAN}</p>
+                <p class="card-text">Bluetooth:${phoneFeature.others.Bluetooth}</p>
+                <p class="card-text">GPS:${phoneFeature.others.GPS}</p>
+                <p class="card-text">NFC:${phoneFeature.others.NFC}</p>
+                <p class="card-text">Radio:${phoneFeature.others.Radio}</p>
+                <p class="card-text">USB:${phoneFeature.others.USB}</p>
+
                </div>
             </div>
             `;
-            main.appendChild(div)
+            morePhoneDetails.appendChild(div)
         });
-
 }

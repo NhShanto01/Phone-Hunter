@@ -16,16 +16,30 @@
 
 <body>
 
+    <!-- Phone Title -->
+
     <h1 class="text-center mt-5">Phone Searcher</h1>
 
+    <!-- phone search area -->
     <div class="container w-75 mt-5">
         <div class="d-flex">
             <input id="search-input" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button onclick="loadPhone()" class="btn btn-outline-dark" type="submit">Search</button>
         </div>
+
+        <!-- Error Message Part -->
         <h4 id="error-message" class="text-danger text-center"></h4>
 
-        <div id="main" class="row">
+        <!--Single Phone Details -->
+        <div id="phone-details" class="w-50 mx-auto">
+
+        </div>
+
+    </div>
+
+    <!-- Phone search result -->
+    <div class="container">
+        <div id="main" class="row ms-4">
 
         </div>
     </div>
