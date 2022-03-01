@@ -1,3 +1,4 @@
+// Search Input and button...........
 
 const mainPhone = document.getElementById('main');
 const loadPhone = () => {
@@ -22,11 +23,12 @@ const loadPhone = () => {
 }
 
 
+// Phone Results...........
+
 const displayPhones = phones => {
     const errorMsg2 = document.getElementById('error-message');
     if (phones.length === 0) {
-        // alert('phone not found')
-        errorMsg2.innerText = "phone not found";
+        errorMsg2.innerText = "Your Phone is not found";
     }
 
     const showPhoneList = phones.slice(0, 20)
@@ -49,6 +51,7 @@ const displayPhones = phones => {
     }
 }
 
+// single phone details...........
 
 const phoneDetails = (phone) => {
     fetch(`https://openapi.programming-hero.com/api/phone/${phone}`)
@@ -58,27 +61,35 @@ const phoneDetails = (phone) => {
             const morePhoneDetails = document.getElementById('phone-details');
             morePhoneDetails.textContent = '';
             const div = document.createElement('div');
+            div.classList.add('details-card');
             div.innerHTML = `
-            <div class="card" style="width: 300px;">
+            <div class="card" style="width: 700px;">
+
+              <div class="card-img">
               <img src="${phoneFeature.image}" class="card-img-top" alt="...">
+              </div>
+
               <div class="card-body">
-                <h5 class="card-title">${phoneFeature.name}</h5>
-                <p class="card-text">${phoneFeature.releaseDate}</p>
+                <h5 class="card-title">Brand :</h5>
+                <p class="card-text">${phoneFeature.brand}</p>
+                <h5 class="card-title">Modal Name :</h5>
+                <p class="card-text">${phoneFeature.name}</p><hr>
+                <p class="card-text">${phoneFeature.releaseDate ? phoneFeature.releaseDate : "Release Date is not found "}</p>
                 <h5 class="card-title"> Performance &  Storage :</h5>
-                <p class="card-text">${phoneFeature.mainFeatures.storage}</p>
-                <p class="card-text">${phoneFeature.mainFeatures.memory}</p>
+                <p class="card-text">${phoneFeature.mainFeatures.storage}</p><hr>
+                <p class="card-text">${phoneFeature.mainFeatures.memory}</p><hr>
                 <p class="card-text">${phoneFeature.mainFeatures.chipSet}</p>
                 <h5 class="card-title">Display :</h5>
                 <p class="card-text">${phoneFeature.mainFeatures.displaySize}</p>
                 <h5 class="card-title">Sensors :</h5>
                 <p class="card-text text-wrap">${phoneFeature.mainFeatures.sensors}</p>
                 <h5 class="card-title">Others :</h5>
-                <p class="card-text">WLAN:${phoneFeature.others.WLAN}</p>
-                <p class="card-text">Bluetooth:${phoneFeature.others.Bluetooth}</p>
-                <p class="card-text">GPS:${phoneFeature.others.GPS}</p>
-                <p class="card-text">NFC:${phoneFeature.others.NFC}</p>
-                <p class="card-text">Radio:${phoneFeature.others.Radio}</p>
-                <p class="card-text">USB:${phoneFeature.others.USB}</p>
+                <p class="card-text">WLAN:${phoneFeature?.others?.WLAN ? phoneFeature.others.WLAN : " not found "}</p><hr>
+                <p class="card-text">Bluetooth:${phoneFeature?.others?.Bluetooth ? phoneFeature.others.Bluetooth : " not found "}</p><hr>
+                <p class="card-text">GPS:${phoneFeature?.others?.GPS ? phoneFeature.others.GPS : " not found "}</p><hr>
+                <p class="card-text">NFC:${phoneFeature?.others?.NFC ? phoneFeature.others.NFC : " not found "}</p><hr>
+                <p class="card-text">Radio:${phoneFeature?.others?.Radio ? phoneFeature.others.Radio : " not found "}</p><hr>
+                <p class="card-text">USB:${phoneFeature?.others?.USB ? phoneFeature.others.USB : " not found "}</p>
 
                </div>
             </div>
@@ -86,3 +97,8 @@ const phoneDetails = (phone) => {
             morePhoneDetails.appendChild(div)
         });
 }
+
+// if (phoneFeature.releaseDate.length === 0) {
+//     // alert('phone not found')
+//     errorMsg2.innerText = "phone not found";
+// }
